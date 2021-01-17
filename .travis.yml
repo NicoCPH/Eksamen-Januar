@@ -6,6 +6,9 @@ dist: bionic
 
 language: java
 
+before_install: cd Grp5startCode
+
+
 cache:
   directories:  
     - $HOME/.m2
