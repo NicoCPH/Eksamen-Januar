@@ -6,7 +6,7 @@ dist: bionic
 
 language: java
 
-before_install: cd Grp5startCode
+before_install: cd grp5startCode
 
 
 cache:
