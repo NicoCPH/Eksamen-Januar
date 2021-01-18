@@ -50,39 +50,26 @@ public class FacadeContact {
         }
 
     }
-    
-    /*public ContactDTO deletePerson(int id) throws ContactNotFoundException{
+
+    public ContactDTO deleteContact(String email) throws ContactNotFoundException {
         EntityManager em = emf.createEntityManager();
-        Person p = em.find(Person.class, id);
-        if(p == null){
-            throw new ContactNotFoundException("Could not delete, provided id does not exist");
-        }
-        Adress address = p.getAdress();
-        Query q = em.createQuery("SELECT p FROM Person p WHERE p.adress.id = :id");
-        q.setParameter("id", address.getId());
-        
+        Contact contact = em.createQuery("SELECT c FROM Contact c WHERE c.email = :email", Contact.class).setParameter("email", email).getSingleResult();
         try {
             em.getTransaction().begin();
-            if(q.getResultList().size() > 1){
-                p.getAdress().getPerson().remove(p);
-                em.remove(p);
-            }else{
-                em.remove(p);
-                em.remove(address);
-            }
+            em.remove(contact);
             em.getTransaction().commit();
         } finally {
             em.close();
         }
-        return new ContactDTO(p);
+        return new ContactDTO(contact);
     }
-*/
+
     public ContactDTO editContact(ContactDTO c) throws ContactNotFoundException {
         EntityManager em = emf.createEntityManager();
         Contact contact = em.createQuery("SELECT c FROM Contact c WHERE c.email = :email", Contact.class).setParameter("email", c.getEmail()).getSingleResult();
         System.out.println("contact fra DB " + contact.getName());
         if (contact == null) {
-            throw new ContactNotFoundException("Requested Person with "+ c.getEmail()+ " does not exist");
+            throw new ContactNotFoundException("Requested Person with " + c.getEmail() + " does not exist");
         }
         contact.setName(c.getName());
         contact.setEmail(c.getEmail());
@@ -101,15 +88,13 @@ public class FacadeContact {
         }
     }
 
-    
-    
     public ContactDTO CreateContact(ContactDTO C) {
-        if ((C.getName().length() == 0) || (C.getEmail().length() == 0) ||
-                (C.getCompany().length() == 0) || (C.getJobtitle().length() == 0) || (C.getPhone() == null)) {
+        if ((C.getName().length() == 0) || (C.getEmail().length() == 0)
+                || (C.getCompany().length() == 0) || (C.getJobtitle().length() == 0) || (C.getPhone() == null)) {
             //throw new MissingInputException("first name or/and last name missing");
         }
-       EntityManager em = emf.createEntityManager(); 
-       Contact con = new Contact(C.getName(), C.getEmail(), C.getCompany(), C.getJobtitle(), C.getPhone());
+        EntityManager em = emf.createEntityManager();
+        Contact con = new Contact(C.getName(), C.getEmail(), C.getCompany(), C.getJobtitle(), C.getPhone());
         try {
             em.getTransaction().begin();
             em.persist(con);
@@ -119,23 +104,23 @@ public class FacadeContact {
         }
         return new ContactDTO(con);
     }
-    
-     public ContactDTO getContact(String email) throws ContactNotFoundException  {
+
+    public ContactDTO getContact(String email) throws ContactNotFoundException {
         EntityManager em = emf.createEntityManager();
         try {
             Contact contact = em.createQuery("SELECT c FROM Contact c WHERE c.email = :email", Contact.class).setParameter("email", email).getSingleResult();
-           if (contact == null) {
-               throw new ContactNotFoundException("Requested contact does not exist");
+            if (contact == null) {
+                throw new ContactNotFoundException("Requested contact does not exist");
             } else {
-               return new ContactDTO(contact);
+                return new ContactDTO(contact);
             }
-           
-        }finally {
+
+        } finally {
             em.close();
         }
     }
-    
-     public ContactsDTO getAllContacts() {
+
+    public ContactsDTO getAllContacts() {
         EntityManager em = emf.createEntityManager();
         try {
             TypedQuery<Contact> query = em.createQuery("SELECT c FROM Contact c", Contact.class);

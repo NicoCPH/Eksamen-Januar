@@ -17,6 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -25,6 +26,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import utils.EMF_Creator;
+
 /**
  * REST Web Service
  *
@@ -32,9 +34,8 @@ import utils.EMF_Creator;
  */
 @Path("contact")
 public class ContactResource {
-    
-    
- private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
+
+    private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
 
     @Context
     private UriInfo context;
@@ -42,26 +43,27 @@ public class ContactResource {
     @Context
     SecurityContext securityContext;
 
-     private static final FacadeContact FACADE =  FacadeContact.getFacadeContact(EMF);
-     
-     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final FacadeContact FACADE = FacadeContact.getFacadeContact(EMF);
+
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
     /**
      * Creates a new instance of ContactResource
      */
     public ContactResource() {
     }
 
-   @Path("/create")
+    @Path("/create")
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @RolesAllowed("user")
     @Consumes({MediaType.APPLICATION_JSON})
     public String addPerson(String contact) {
-       ContactDTO C = GSON.fromJson(contact, ContactDTO.class);
-       ContactDTO newContact = FACADE.CreateContact(C);
+        ContactDTO C = GSON.fromJson(contact, ContactDTO.class);
+        ContactDTO newContact = FACADE.CreateContact(C);
         return GSON.toJson(newContact);
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getJson() {
@@ -77,25 +79,36 @@ public class ContactResource {
         ContactsDTO contacts = FACADE.getAllContacts();
         return GSON.toJson(contacts);
     }
-    
-    
+
     @Path("/{email}")
     @GET
     @RolesAllowed("user")
     @Produces({MediaType.APPLICATION_JSON})
-    public String getContact(@PathParam("email") String email) throws ContactNotFoundException{
+    public String getContact(@PathParam("email") String email) throws ContactNotFoundException {
         ContactDTO c = FACADE.getContact(email);
         return GSON.toJson(c);
     }
-   
+
     @PUT
     @Path("update/{email}")
+    @RolesAllowed("user")
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    public String updatePerson(@PathParam("email") String email, String contact) throws ContactNotFoundException  {
+    public String updatePerson(@PathParam("email") String email, String contact) throws ContactNotFoundException {
         ContactDTO cDTO = GSON.fromJson(contact, ContactDTO.class);
         cDTO.setEmail(email);
         ContactDTO updatePerson = FACADE.editContact(cDTO);
         return GSON.toJson(updatePerson);
     }
+
+    @DELETE
+    @Path("delete/{email}")
+    @RolesAllowed("user")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    public String deleteContact(@PathParam("email") String email) throws ContactNotFoundException {
+        ContactDTO contact = FACADE.deleteContact(email);
+        return GSON.toJson(contact);
+    }
+
 }

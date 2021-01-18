@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Navbar, Nav, NavItem, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, NavItem} from "react-bootstrap";
 import Login from "./login";
 import CreateContact from "./createContact"
 import EditContact from "./editContact"
 import AllContact from "./allContacts"
+import DeleteContact from "./deleteContact"
 import Find from "./findContact"
 import Home from "./home";
 import Readme from "./readMe";
 import facade from "./apiFacade";
 import ValidateRoleSite from "./validateRoleSite";
-import UserSite from "./userSite";
 import AdminSite from "./adminSite";
 
 const NavBarIO = () => {
@@ -73,8 +73,8 @@ const Content = (props) => {
       <Route path="/Contacts" component={AllContact} />
       <Route path="/Contact" component={Find} />
       <Route path="/EditContact" component={EditContact} />
+      <Route path="/DeleteContact" component={DeleteContact} />
       <Route path="/AdminSite" component={AdminSite} />
-      <Route path="/UserSite" component={UserSite} />
       <Route path="/Login">
         <Login setLoggedIn={props.setLoggedIn} loggedIn={props.loggedIn} />
       </Route>

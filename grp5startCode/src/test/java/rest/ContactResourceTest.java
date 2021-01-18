@@ -47,7 +47,7 @@ public class ContactResourceTest {
         emf = EMF_Creator.createEntityManagerFactoryForTest();
         EntityManager em = emf.createEntityManager();
         r1 = new Contact("julu", "email@email.dk", "TUC", "CEO", 32142123);
-        r2 = new Contact("juju", "email@emails.dk", "ToC", "CEO", 32142124);;
+        r2 = new Contact("juju", "email@emails.dk", "ToC", "CEO", 32142124);
         try {
             em.getTransaction().begin();
             em.persist(r1);
@@ -185,4 +185,17 @@ public class ContactResourceTest {
         Assertions.assertEquals(200, response.statusCode());
         Assertions.assertEquals("Julu dulus", response.jsonPath().getString("name"));
     }
+    @Test
+    public void testDeleteContact() {
+        login("user", "test");
+         Response response = given().contentType("application/json").
+                 header("x-access-token", securityToken)
+                .when()
+                .delete("/contact/delete/email@emails.dk")
+                .then()
+                .extract().response();
+
+        Assertions.assertEquals(200, response.statusCode());
+    }
+    
 }

@@ -17,6 +17,9 @@ const UserNavigator = () => {
    <NavDropdown.Item as={Link} to="/EditContact">
    Edit Contact
  </NavDropdown.Item>
+ <NavDropdown.Item as={Link} to="/DeleteContact">
+  Delete Contact
+ </NavDropdown.Item>
  </NavDropdown>
   );
 };
