@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -33,23 +35,26 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Contact.findByPhone", query = "SELECT c FROM Contact c WHERE c.phone = :phone")})
 public class Contact implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @Size(max = 45)
     @Column(name = "name")
     private String name;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 45)
     @Column(name = "email")
     private String email;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 45)
     @Column(name = "company")
     private String company;
     @Size(max = 45)
     @Column(name = "jobtitle")
     private String jobtitle;
+    @Id()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    private static final long serialVersionUID = 1L;
     @Column(name = "phone")
     private Integer phone;
 
@@ -59,6 +64,7 @@ public class Contact implements Serializable {
         this.company = company;
         this.jobtitle = jobtitle;
         this.phone = phone;
+   
     }
 
     
@@ -66,8 +72,25 @@ public class Contact implements Serializable {
     public Contact() {
     }
 
-    public Contact(String name) {
-        this.name = name;
+  
+
+
+    public Integer getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Integer phone) {
+        this.phone = phone;
+    }
+ 
+
+    @Override
+    public String toString() {
+        return "entities.Contact[ name=" + name + " ]";
+    }
+
+    public Contact(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -102,37 +125,13 @@ public class Contact implements Serializable {
         this.jobtitle = jobtitle;
     }
 
-    public Integer getPhone() {
-        return phone;
+    public Integer getId() {
+        return id;
     }
 
-    public void setPhone(Integer phone) {
-        this.phone = phone;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (name != null ? name.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Contact)) {
-            return false;
-        }
-        Contact other = (Contact) object;
-        if ((this.name == null && other.name != null) || (this.name != null && !this.name.equals(other.name))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entities.Contact[ name=" + name + " ]";
-    }
-    
+  
 }

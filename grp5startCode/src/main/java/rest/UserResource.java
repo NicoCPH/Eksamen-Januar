@@ -5,7 +5,11 @@
  */
 package rest;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import dtos.UserDTO;
 import entities.User;
+import facades.UserFacade;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManager;
@@ -16,6 +20,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
@@ -31,6 +36,8 @@ import utils.EMF_Creator;
 public class UserResource {
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final UserFacade FACADE = UserFacade.getUserFacade(EMF);
 
     @Context
     private UriInfo context;
@@ -68,5 +75,12 @@ public class UserResource {
         }
     }
     
-
+   @POST
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    public String addPerson(String user) {
+        UserDTO u = GSON.fromJson(user, UserDTO.class);
+        UserDTO newUser = FACADE.addUser(u);
+        return GSON.toJson(newUser);
+    }
 }

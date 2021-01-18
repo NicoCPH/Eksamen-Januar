@@ -4,6 +4,7 @@ import { Navbar, Nav, NavItem, NavDropdown } from "react-bootstrap";
 import Login from "./login";
 import CreateContact from "./createContact"
 import AllContact from "./allContacts"
+import Find from "./findContact"
 import Home from "./home";
 import Readme from "./readMe";
 import facade from "./apiFacade";
@@ -69,6 +70,7 @@ const Content = (props) => {
       <Route path="/Readme" component={Readme} />
       <Route path="/CreateContact" component={CreateContact} />
       <Route path="/Contacts" component={AllContact} />
+      <Route path="/Contact" component={Find} />
       <Route path="/AdminSite" component={AdminSite} />
       <Route path="/UserSite" component={UserSite} />
       <Route path="/Login">

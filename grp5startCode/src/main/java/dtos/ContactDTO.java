@@ -16,6 +16,7 @@ public class ContactDTO {
     private String company;
     private String jobtitle;
     private Integer phone;
+   
 
      public ContactDTO(Contact C) {
        this.name = C.getName();
@@ -23,7 +24,10 @@ public class ContactDTO {
        this.company = C.getCompany();
        this.jobtitle = C.getJobtitle();
        this.phone = C.getPhone();
+      
 }
+
+  
 
     public String getName() {
         return name;

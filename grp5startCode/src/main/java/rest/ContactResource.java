@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.ContactDTO;
 import dtos.ContactsDTO;
+import errorhandling.ContactNotFoundException;
 import facades.FacadeContact;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
@@ -20,6 +21,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import utils.EMF_Creator;
@@ -75,12 +77,25 @@ public class ContactResource {
         ContactsDTO contacts = FACADE.getAllContacts();
         return GSON.toJson(contacts);
     }
-    /**
-     * PUT method for updating or creating an instance of ContactResource
-     * @param content representation for the resource
-     */
+    
+    
+    @Path("/{email}")
+    @GET
+    @RolesAllowed("user")
+    @Produces({MediaType.APPLICATION_JSON})
+    public String getContact(@PathParam("email") String email) throws ContactNotFoundException{
+        ContactDTO c = FACADE.getContact(email);
+        return GSON.toJson(c);
+    }
+   
     @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void putJson(String content) {
+    @Path("update/{email}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    public String updatePerson(@PathParam("email") String email, String contact) throws ContactNotFoundException  {
+        ContactDTO cDTO = GSON.fromJson(contact, ContactDTO.class);
+        cDTO.setEmail(email);
+        ContactDTO updatePerson = FACADE.editContact(cDTO);
+        return GSON.toJson(updatePerson);
     }
 }
