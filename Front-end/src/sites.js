@@ -13,3 +13,5 @@ export const GetAllContactsUrl = "http://localhost:8080/jpareststarter/api/conta
 export const GetContactUrl = "http://localhost:8080/jpareststarter/api/contact/";
 
 export const AddUserURL = "http://localhost:8080/jpareststarter/api/user";
+
+export const EditContactURL = "http://localhost:8080/jpareststarter/api/contact/update/";

@@ -14,7 +14,10 @@ const UserNavigator = () => {
     <NavDropdown.Item as={Link} to="/Contact">
       Find Contact
     </NavDropdown.Item>
-  </NavDropdown>
+   <NavDropdown.Item as={Link} to="/EditContact">
+   Edit Contact
+ </NavDropdown.Item>
+ </NavDropdown>
   );
 };
 

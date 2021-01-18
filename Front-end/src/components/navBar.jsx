@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Navbar, Nav, NavItem, NavDropdown } from "react-bootstrap";
 import Login from "./login";
 import CreateContact from "./createContact"
+import EditContact from "./editContact"
 import AllContact from "./allContacts"
 import Find from "./findContact"
 import Home from "./home";
@@ -71,6 +72,7 @@ const Content = (props) => {
       <Route path="/CreateContact" component={CreateContact} />
       <Route path="/Contacts" component={AllContact} />
       <Route path="/Contact" component={Find} />
+      <Route path="/EditContact" component={EditContact} />
       <Route path="/AdminSite" component={AdminSite} />
       <Route path="/UserSite" component={UserSite} />
       <Route path="/Login">

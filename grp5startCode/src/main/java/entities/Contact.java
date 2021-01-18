@@ -6,7 +6,9 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,10 +16,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,12 +36,16 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Contact.findByEmail", query = "SELECT c FROM Contact c WHERE c.email = :email"),
     @NamedQuery(name = "Contact.findByCompany", query = "SELECT c FROM Contact c WHERE c.company = :company"),
     @NamedQuery(name = "Contact.findByJobtitle", query = "SELECT c FROM Contact c WHERE c.jobtitle = :jobtitle"),
-    @NamedQuery(name = "Contact.findByPhone", query = "SELECT c FROM Contact c WHERE c.phone = :phone")})
+    @NamedQuery(name = "Contact.findByPhone", query = "SELECT c FROM Contact c WHERE c.phone = :phone"),
+    @NamedQuery(name = "Contact.deleteAllRows", query = "DELETE from Contact"),
+        })
+    
 public class Contact implements Serializable {
 
     @Size(max = 45)
     @Column(name = "name")
     private String name;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 45)
     @Column(name = "email")
@@ -49,6 +57,8 @@ public class Contact implements Serializable {
     @Size(max = 45)
     @Column(name = "jobtitle")
     private String jobtitle;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "contact")
+    private List<Opportunity> opportunityList;
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -92,6 +102,12 @@ public class Contact implements Serializable {
     public Contact(Integer id) {
         this.id = id;
     }
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -125,12 +141,13 @@ public class Contact implements Serializable {
         this.jobtitle = jobtitle;
     }
 
-    public Integer getId() {
-        return id;
+    @XmlTransient
+    public List<Opportunity> getOpportunityList() {
+        return opportunityList;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setOpportunityList(List<Opportunity> opportunityList) {
+        this.opportunityList = opportunityList;
     }
 
   

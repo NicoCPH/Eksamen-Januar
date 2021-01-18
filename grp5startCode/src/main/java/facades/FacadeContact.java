@@ -80,6 +80,7 @@ public class FacadeContact {
     public ContactDTO editContact(ContactDTO c) throws ContactNotFoundException {
         EntityManager em = emf.createEntityManager();
         Contact contact = em.createQuery("SELECT c FROM Contact c WHERE c.email = :email", Contact.class).setParameter("email", c.getEmail()).getSingleResult();
+        System.out.println("contact fra DB " + contact.getName());
         if (contact == null) {
             throw new ContactNotFoundException("Requested Person with "+ c.getEmail()+ " does not exist");
         }
@@ -90,6 +91,8 @@ public class FacadeContact {
         contact.setPhone(c.getPhone());
         try {
             em.getTransaction().begin();
+            System.out.println(c.getName());
+            System.out.println(contact.getName() + " efter db");
             em.merge(contact);
             em.getTransaction().commit();
             return new ContactDTO(contact);
@@ -126,8 +129,7 @@ public class FacadeContact {
             } else {
                return new ContactDTO(contact);
             }
-            
-        
+           
         }finally {
             em.close();
         }
