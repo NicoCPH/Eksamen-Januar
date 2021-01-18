@@ -47,7 +47,7 @@ function ApiFacade() {
 
     const login = (user, password) => {
         const options = makeOptions("POST", true, { username: user, password: password });
-        return fetch(URL + "/api/login", options)
+        return fetch(URL + "/login", options)
             .then(handleHttpErrors)
             .then(res => {
                 setToken(res.token)
@@ -59,7 +59,7 @@ function ApiFacade() {
 
     const fetchData = () => {
         const options = makeOptions("GET", true); //True add's the token
-        return fetch(URL + "/api/" + getRoles() + "/" + getRoles(), options).then(handleHttpErrors);
+        return fetch(URL + "/"+ getRoles() + "/" + getRoles(), options).then(handleHttpErrors);
     }
     const makeOptions = (method, addToken, body) => {
         var opts = {

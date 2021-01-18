@@ -34,7 +34,7 @@ const Header = (props) => {
       <div>
         <Navbar bg="dark" variant="dark">
           <Navbar.Brand as={Link} to="/">
-            CA-3 Gruppe 5
+            Nicolas Eksamen
           </Navbar.Brand>
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">

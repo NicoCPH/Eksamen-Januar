@@ -1,4 +1,5 @@
 export const Site = "http://localhost:8080/jpareststarter/api";
+//export const Site = "https://longtheemporer.dk/januar2021eksamen_backend/api";
 
 export const AdminUrlUserCount = Site + "/admin/userCount";
 
