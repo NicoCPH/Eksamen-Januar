@@ -1,14 +1,17 @@
 import React from "react";
-import { Nav, NavItem } from "react-bootstrap";
+import { NavDropdown} from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const UserNavigator = () => {
   return (
-    <NavItem href="/UserSite">
-      <Nav.Link as={Link} to="/UserSite">
-        User
-      </Nav.Link>
-    </NavItem>
+    <NavDropdown title="Contact" id="basic-nav-dropdown">
+    <NavDropdown.Item as={Link} to="/CreateContact">
+     Create Contact
+    </NavDropdown.Item>
+    <NavDropdown.Item as={Link} to="/Contacts">
+      All Contacts
+    </NavDropdown.Item>
+  </NavDropdown>
   );
 };
 

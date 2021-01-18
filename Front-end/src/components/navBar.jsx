@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Navbar, Nav, NavItem, NavDropdown } from "react-bootstrap";
 import Login from "./login";
-import DailyFun from "./dailyFun";
+import CreateContact from "./createContact"
+import AllContact from "./allContacts"
 import Home from "./home";
 import Readme from "./readMe";
 import facade from "./apiFacade";
@@ -45,20 +46,7 @@ const Header = (props) => {
                   Readme
                 </Nav.Link>
               </NavItem>
-              <NavItem href="/DailyFun">
-                <Nav.Link as={Link} to="/DailyFun">
-                  DailyFun
-                </Nav.Link>
-              </NavItem>
               <ValidateRoleSite loggedIn={props.loggedIn} />
-              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item as={Link} to="/">
-                  Home
-                </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/Readme">
-                  Readme
-                </NavDropdown.Item>
-              </NavDropdown>
             </Nav>
             <Nav>
               <NavItem href="/Login">
@@ -79,7 +67,8 @@ const Content = (props) => {
     <Switch>
       <Route exact path="/" component={Home} />
       <Route path="/Readme" component={Readme} />
-      <Route path="/DailyFun" component={DailyFun} />
+      <Route path="/CreateContact" component={CreateContact} />
+      <Route path="/Contacts" component={AllContact} />
       <Route path="/AdminSite" component={AdminSite} />
       <Route path="/UserSite" component={UserSite} />
       <Route path="/Login">
